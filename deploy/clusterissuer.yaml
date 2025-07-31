@@ -5,7 +5,7 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: b.max.macedo.tavares@avanade.com
+    email: email@email.com
     privateKeySecretRef:
       name: letsencrypt-dev
     solvers:
