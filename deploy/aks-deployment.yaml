@@ -32,7 +32,7 @@ spec:
         - name: LOG_LEVEL
           value: "INFO"
         - name: OPENWEATHERMAP_API_KEY
-          value: "b851467c40a5692e35d599b1f3d42db3"
+          value: ""
         - name: MCP_SERVER_PORT
           value: "8081"
         - name: HEALTH_CHECK_PORT
@@ -81,47 +81,3 @@ spec:
     name: mcp
   selector:
     app: weather-mcp
-
----
-
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: weather-mcp-ingress
-  namespace: pocs
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-dev
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      add_header X-Frame-Options "SAMEORIGIN" always;
-      add_header X-Content-Type-Options "nosniff" always;
-      add_header Content-Security-Policy "default-src 'self' 'unsafe-eval' 'unsafe-inline' *.avanade.ai; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.botframework.com *.jsdelivr.net; img-src 'self' *.avanade.ai data:; connect-src 'self' *.avanade.ai https://*.avanade.ai wss://*.avanade.ai ws://*.avanade.ai *.microsoftonline.com *.microsoft.com *.blob.core.windows.net; font-src 'self' data: *.avanade.ai *.gstatic.com fonts.gstatic.com; style-src 'self' 'unsafe-inline' *.googleapis.com fonts.googleapis.com *.jsdelivr.net; media-src 'self' *.avanade.ai *.blob.core.windows.net; upgrade-insecure-requests; block-all-mixed-content;" always;
-      add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-      add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
-      add_header Cache-Control "no-store" always;
-      more_set_headers "Strict-Transport-Security: max-age=31536000; includeSubDomains; preload";
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/proxy-body-size: 256m
-spec:
-  ingressClassName: nginx
-  tls:
-  - hosts:
-    - weather-dev.cockpit.avanade.ai
-    secretName: letsencrypt-mcp-dev
-  rules:
-  - host: weather-dev.cockpit.avanade.ai
-    http:     
-      paths:
-      - path: /health
-        pathType: Exact
-        backend:
-          service:
-            name: weather-mcp-service
-            port:
-              number: 80
-      - path: /mcp
-        pathType: Exact
-        backend:
-          service:
-            name: weather-mcp-service
-            port:
-              number: 80
