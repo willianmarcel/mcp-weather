@@ -1,0 +1,20 @@
+{
+    "mcpServers": {
+        "weather-mcp-production": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "mcp-remote",
+                "https://weather-dev.cockpit.avanade.ai/mcp"
+            ]
+        },
+        "weather-mcp-local": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "mcp-remote",
+                "http://localhost:8000/mcp"
+            ]
+        }
+    }
+}

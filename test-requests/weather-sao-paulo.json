@@ -1,0 +1,13 @@
+{
+    "jsonrpc": "2.0",
+    "id": 3,
+    "method": "tools/call",
+    "params": {
+        "name": "get_current_weather",
+        "arguments": {
+            "city": "São Paulo",
+            "country": "BR",
+            "units": "metric"
+        }
+    }
+}
